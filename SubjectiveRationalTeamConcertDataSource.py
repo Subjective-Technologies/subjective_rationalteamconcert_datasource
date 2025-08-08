@@ -52,13 +52,15 @@ class SubjectiveRationalTeamConcertDataSource(SubjectiveDataSource):
 
     # ------------------------------------------------------------------
     def get_icon(self):
-        """Return the SVG code for the RTC icon."""
-        return """
-<svg viewBox="0 0 24 24" fill="none" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="10" stroke="#16335B" stroke-width="2" fill="none"/>
-  <text x="50%" y="50%" font-size="5" fill="#16335B" text-anchor="middle" alignment-baseline="middle">RTC</text>
-</svg>
-        """
+        """Return SVG icon content, preferring a local icon.svg in the plugin folder."""
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon.svg')
+        try:
+            if os.path.exists(icon_path):
+                with open(icon_path, 'r', encoding='utf-8') as f:
+                    return f.read()
+        except Exception:
+            pass
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#16335B"/><text x="12" y="13" font-size="6" fill="#fff" text-anchor="middle">RTC</text></svg>'
 
     def get_connection_data(self):
         """
